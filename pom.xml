@@ -51,11 +51,11 @@
 	</properties>
 	
 	<dependencies>
+		<!-- Spring default dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -66,14 +66,216 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
+		<!-- The rest are dependencies carried over from account__graphql-api  -->
+		<dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>8.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>javax.jms-api</artifactId>
+            <version>2.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency> 
+            <groupId>org.eclipse.microprofile</groupId> 
+            <artifactId>microprofile</artifactId> 
+            <version>4.1</version>
+            <type>pom</type>
+            <scope>provided</scope> 
+        </dependency>
+
+        <dependency>
+            <groupId>com.cloudant</groupId>
+            <artifactId>cloudant-client</artifactId>
+            <version>2.20.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cloudant</groupId>
+            <artifactId>cloudant-http</artifactId>
+            <version>2.20.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JNoSQL dependency as a replacement for cloudant libs in GraphQL functionality -->
+        <dependency>
+            <groupId>org.eclipse.jnosql.mapping</groupId>
+            <artifactId>mapping-document</artifactId>
+            <version>1.0.0-b4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jnosql.communication</groupId>
+            <artifactId>couchdb-driver</artifactId>
+            <version>1.0.0-b4</version>
+        </dependency>
+
+        <!-- GraphQL Dep -->
+        <dependency>
+            <groupId>org.eclipse.microprofile.graphql</groupId>
+            <artifactId>microprofile-graphql-api</artifactId>
+            <version>1.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.smallrye</groupId>
+            <artifactId>smallrye-graphql</artifactId>
+            <!-- TODO This needs to be updated whenever we upgrade the above MicroprofileGraphQL feature -->
+            <!-- From https://github.com/OpenLiberty/open-liberty/blob/gm-22.0.0.4/dev/com.ibm.ws.io.smallrye.graphql/bnd.bnd -->
+            <!-- From https://github.com/OpenLiberty/open-liberty/blob/gm-22.0.0.6/dev/com.ibm.ws.io.smallrye.graphql/bnd.bnd -->
+            <version>1.0.26</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- GraphQL Dep -->
+
+		<!-- OkHttp is used by Cloudant -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp-urlconnection</artifactId>
+            <version>4.9.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jaegertracing</groupId>
+            <artifactId>jaeger-client</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
+		<!-- Use newer versions of gson, libthrift and apache commons dependencies to avoid vulnerability scan issues -->
+        <dependency>
+          <groupId>com.google.code.gson</groupId>
+          <artifactId>gson</artifactId>
+          <version>2.9.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+            <version>0.16.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.7.36</version>
+        </dependency>
+
+        <!-- MQ Providers -->
+        <dependency>
+            <groupId>com.ibm.mq</groupId>
+            <artifactId>wmq.jmsra</artifactId>
+            <version>9.2.5.0</version>
+            <type>rar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-rar</artifactId>
+            <version>5.17.0</version>
+            <type>rar</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			<!-- Spring default plugin -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<!-- The rest are plugins carried over from account__graphql-api -->
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <packagingExcludes>pom.xml</packagingExcludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-nonprovided-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/prereqs</outputDirectory>
+                            <!-- We exclude the provided dependencies to avoid image vulnerabilities being reported -->
+                            <excludeScope>provided</excludeScope>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-rar-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/prereqs</outputDirectory>
+                            <includeScope>provided</includeScope>
+                            <!-- Need to include the "provided" MQ rars that got excluded above -->
+                            <includeTypes>rar</includeTypes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-cloudant-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/prereqs</outputDirectory>
+                            <!-- Need to include the "provided" cloudant jar that got excluded above -->
+                            <includeArtifactIds>cloudant-client,cloudant-http,okhttp-urlconnection</includeArtifactIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 
